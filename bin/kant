@@ -1,0 +1,6 @@
+#!/bin/bash
+if [ -z "$KANT_HOME" ]; then
+    KANT_HOME="/opt/kant"
+fi
+KAWA_CODE="'(require \"$KANT_HOME/lib/kawa-ant.scm\")'"
+java -classpath $KANT_HOME/lib/kawa-1.13.jar:$KANT_HOME/lib/kawa-tools.jar:$KANT_HOME/lib/ant.jar:$CLASSPATH kawa.repl -e $KAWA_CODE -f ${2-build.scm}
