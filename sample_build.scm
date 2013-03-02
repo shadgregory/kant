@@ -1,5 +1,5 @@
-(define classpath (org.apache.tools.ant.types.Path p ".:./build"))
+(set-classpath ".:./build")
 
 (mkdir "./build")
-(javac "./build" "./src" classpath)
-(java "MyClass" classpath)
+(javac "./build" "./src")
+(java "MyClass")

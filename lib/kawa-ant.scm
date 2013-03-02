@@ -5,6 +5,11 @@
 (define-alias <jar> <org.apache.tools.ant.taskdefs.Jar>)
 (define-alias <mkdir> <org.apache.tools.ant.taskdefs.Mkdir>)
 (define p (org.apache.tools.ant.Project))
+(define classpath (org.apache.tools.ant.types.Path p "."))
+
+(define set-classpath 
+  (lambda (path)
+    (set! classpath (org.apache.tools.ant.types.Path p path))))
 
 (define kawac
   (lambda (prefix dir files lang)
@@ -22,7 +27,7 @@
       (invoke (as <kawac> kawac) 'execute))))
 
 (define javac
-  (lambda (destdir srcdir classpath)
+  (lambda (destdir srcdir)
     (let ((javac (org.apache.tools.ant.taskdefs.Javac)))
       (invoke (as <javac> javac) 'setProject p)
       (invoke (as <javac> javac) 'setSrcdir 
@@ -34,13 +39,13 @@
 
 (define java
   (case-lambda 
-    ((classname classpath)
+    ((classname)
      (let ((java (org.apache.tools.ant.taskdefs.Java)))
        (invoke (as <java> java) 'setProject p)
        (invoke (as <java> java) 'setClassname classname)
        (invoke (as <java> java) 'setClasspath classpath)
        (invoke (as <java> java) 'execute)))
-    ((classname classpath arg)
+    ((classname arg)
      (let ((java (org.apache.tools.ant.taskdefs.Java)))
        (invoke (as <java> java) 'setProject p)
        (invoke (as <java> java) 'setClassname classname)
