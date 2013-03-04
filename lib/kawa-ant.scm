@@ -4,6 +4,7 @@
 (define-alias <java> <org.apache.tools.ant.taskdefs.Java>)
 (define-alias <jar> <org.apache.tools.ant.taskdefs.Jar>)
 (define-alias <mkdir> <org.apache.tools.ant.taskdefs.Mkdir>)
+(define-alias <delete> <org.apache.tools.ant.taskdefs.Delete>)
 (define p (org.apache.tools.ant.Project))
 (define classpath (org.apache.tools.ant.types.Path p "."))
 
@@ -12,14 +13,14 @@
     (set! classpath (org.apache.tools.ant.types.Path p path))))
 
 (define kawac
-  (lambda (prefix dir files lang)
+  (lambda (prefix dir dest-dir files lang)
     (let ((kawac (gnu.kawa.ant.Kawac))
           (fileset (org.apache.tools.ant.types.FileSet)))
       (invoke (as <kawac> kawac) 'setTaskName "kawac")
-      (invoke (as <kawac> kawac) 'setDestdir (java.io.File "./build"))
+      (invoke (as <kawac> kawac) 'setDestdir (java.io.File dest-dir))
       (invoke (as <kawac> kawac) 'setProject p)
       (invoke (as <kawac> kawac) 'setLanguage lang)
-      (invoke (as <kawac> kawac) 'setClasspath (org.apache.tools.ant.types.Path p "lib/ant.jar:lib/kawa.jar:lib/kawa-tools.jar:build"))
+      ;(invoke (as <kawac> kawac) 'setClasspath classpath)
       (invoke (as <kawac> kawac) 'setPrefix prefix)
       (invoke (as <fileset> fileset) 'setDir (java.io.File (as <String> dir)))
       (invoke (as <fileset> fileset) 'appendIncludes files)
@@ -36,6 +37,13 @@
               (java.io.File (as <String> destdir)))
       (invoke (as <javac> javac) 'setClasspath classpath)
       (invoke (as <javac> javac) 'execute))))
+
+(define delete
+  (lambda (dir)
+    (let ((delete (org.apache.tools.ant.taskdefs.Delete)))
+      (invoke (as <delete> delete) 'setProject p)
+      (invoke (as <delete> delete) 'setDir (java.io.File (as <String> dir)))
+      (invoke (as <delete> delete) 'execute))))
 
 (define java
   (case-lambda 
