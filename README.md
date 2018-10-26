@@ -3,7 +3,7 @@ kant
 
 Kawa Scheme Interface to ANT
 
-*set KANT_HOME to the installation directory (i.e. "expport KANT_HOME=/usr/local/kant")
+*set KANT_HOME to the installation directory (i.e. "export KANT_HOME=/usr/local/kant")
 
 *add the bin directory to your PATH (i.e. "export PATH=$PATH:/usr/local/kant/bin")
 
